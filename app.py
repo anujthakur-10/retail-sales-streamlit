@@ -19,7 +19,7 @@ if st.button("🔮 Predict Next Month's Sales"):
 
     try:
         # Call FastAPI
-        response = requests.post("http://127.0.0.1:8000/predict", json=payload)
+        response = requests.post("https://retail-sales-fastapi.onrender.com/predict", json=payload)
 
         if response.status_code == 200:
             result = response.json()
