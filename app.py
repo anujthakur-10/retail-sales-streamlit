@@ -33,13 +33,20 @@ import streamlit as st
 import numpy as np
 from tensorflow.keras.models import load_model
 
-model = load_model("lstm_model.h5")
-
 st.title("📈 Retail Sales Predictor")
 
-user_input = st.number_input("Enter last month's sales", value=0)
+# Load the LSTM model (make sure it's uploaded in the same folder)
+@st.cache_resource
+def load_lstm_model():
+    return load_model("lstm_model.h5")
 
-if st.button("Predict Next Month's Sales"):
-    sequence = np.array([[user_input]])
+model = load_lstm_model()
+
+# User input
+sales_input = st.number_input("Enter last month's sales (₹):", min_value=0)
+
+if st.button("Predict"):
+    sequence = np.array([[sales_input]])
     prediction = model.predict(sequence)[0][0]
-    st.success(f"Predicted Sales: ₹{prediction:.2f}")
+    st.success(f"📊 Predicted Sales for Next Month: ₹{prediction:.2f}")
+
